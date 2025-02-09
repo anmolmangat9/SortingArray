@@ -26,6 +26,7 @@
 </head>
 <body>
     <h1>Merge Sort Algorithm</h1>
+
     <input type="text" id="inputArray" placeholder="Enter values separated by commas">
     <select id="sortType">
         <option value="number">Number</option>
@@ -35,12 +36,14 @@
     <div id="output"></div>
 
     <script>
+
         function mergeSort(arr, isAlphabetical) {
             if (arr.length <= 1) {
                 return arr;
             }
 
             const mid = Math.floor(arr.length / 2);
+
             const left = mergeSort(arr.slice(0, mid), isAlphabetical);
             const right = mergeSort(arr.slice(mid), isAlphabetical);
 
@@ -73,6 +76,10 @@
             }
 
             const sortedArr = mergeSort(arr, sortType === "alphabet");
+
+            const arr = input.split(',').map(num => parseInt(num.trim(), 10));
+            const sortedArr = mergeSort(arr);
+
             document.getElementById("output").innerText = "Sorted Array: " + sortedArr.join(", ");
         }
     </script>
