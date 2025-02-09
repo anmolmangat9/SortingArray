@@ -39,11 +39,13 @@
         <option value="alphabet">Alphabet</option>
     </select>
     <button onclick="sortArray()">Sort</button>
+    <button onclick="resetForm()">Reset</button>
     <div id="output"></div>
     <div id="steps"></div>
 
     <script>
         function mergeSort(arr, isAlphabetical, steps) {
+
             if (arr.length <= 1) {
                 return arr;
             }
@@ -55,6 +57,11 @@
             const merged = merge(left, right, isAlphabetical);
             steps.push("Merging: " + left.join(", ") + " & " + right.join(", ") + " → " + merged.join(", "));
             return merged;
+
+            const left = mergeSort(arr.slice(0, mid), isAlphabetical);
+            const right = mergeSort(arr.slice(mid), isAlphabetical);
+
+            return merge(left, right, isAlphabetical);
         }
 
         function merge(left, right, isAlphabetical) {
@@ -81,12 +88,21 @@
             } else {
                 arr = input.split(',').map(str => str.trim());
             }
-            
             let steps = [];
             const sortedArr = mergeSort(arr, sortType === "alphabet", steps);
-            
+
+            const sortedArr = mergeSort(arr, sortType === "alphabet");
+
+            const arr = input.split(',').map(num => parseInt(num.trim(), 10));
+            const sortedArr = mergeSort(arr);
+
             document.getElementById("output").innerText = "Sorted Array: " + sortedArr.join(", ");
             document.getElementById("steps").innerHTML = "<h2>Merge Steps:</h2><ul><li>" + steps.join("</li><li>") + "</li></ul>";
+        }
+
+        function resetForm() {
+            document.getElementById("inputArray").value = "";
+            document.getElementById("output").innerText = "";
         }
     </script>
 </body>
