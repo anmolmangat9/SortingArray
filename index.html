@@ -33,6 +33,7 @@
         <option value="alphabet">Alphabet</option>
     </select>
     <button onclick="sortArray()">Sort</button>
+    <button onclick="resetForm()">Reset</button>
     <div id="output"></div>
 
     <script>
@@ -81,6 +82,11 @@
             const sortedArr = mergeSort(arr);
 
             document.getElementById("output").innerText = "Sorted Array: " + sortedArr.join(", ");
+        }
+
+        function resetForm() {
+            document.getElementById("inputArray").value = "";
+            document.getElementById("output").innerText = "";
         }
     </script>
 </body>
