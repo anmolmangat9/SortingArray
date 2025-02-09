@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sort Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            padding: 5px;
+            margin: 10px;
+        }
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Merge Sort Algorithm</h1>
+    <input type="text" id="inputArray" placeholder="Enter numbers separated by commas">
+    <button onclick="sortArray()">Sort</button>
+    <div id="output"></div>
+
+    <script>
+        function mergeSort(arr) {
+            if (arr.length <= 1) {
+                return arr;
+            }
+
+            const mid = Math.floor(arr.length / 2);
+            const left = mergeSort(arr.slice(0, mid));
+            const right = mergeSort(arr.slice(mid));
+
+            return merge(left, right);
+        }
+
+        function merge(left, right) {
+            let result = [], i = 0, j = 0;
+            
+            while (i < left.length && j < right.length) {
+                if (left[i] < right[j]) {
+                    result.push(left[i]);
+                    i++;
+                } else {
+                    result.push(right[j]);
+                    j++;
+                }
+            }
+            
+            return result.concat(left.slice(i)).concat(right.slice(j));
+        }
+
+        function sortArray() {
+            const input = document.getElementById("inputArray").value;
+            const arr = input.split(',').map(num => parseInt(num.trim(), 10));
+            const sortedArr = mergeSort(arr);
+            document.getElementById("output").innerText = "Sorted Array: " + sortedArr.join(", ");
+        }
+    </script>
+</body>
+</html>
