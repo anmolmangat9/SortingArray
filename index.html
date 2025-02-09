@@ -10,7 +10,7 @@
             text-align: center;
             margin: 20px;
         }
-        input {
+        input, select {
             padding: 5px;
             margin: 10px;
         }
@@ -22,32 +22,45 @@
             margin-top: 20px;
             font-weight: bold;
         }
+        #steps {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
     <h1>Merge Sort Algorithm</h1>
-    <input type="text" id="inputArray" placeholder="Enter numbers separated by commas">
+    <input type="text" id="inputArray" placeholder="Enter values separated by commas">
+    <select id="sortType">
+        <option value="number">Number</option>
+        <option value="alphabet">Alphabet</option>
+    </select>
     <button onclick="sortArray()">Sort</button>
     <div id="output"></div>
+    <div id="steps"></div>
 
     <script>
-        function mergeSort(arr) {
+        function mergeSort(arr, isAlphabetical, steps) {
             if (arr.length <= 1) {
                 return arr;
             }
 
             const mid = Math.floor(arr.length / 2);
-            const left = mergeSort(arr.slice(0, mid));
-            const right = mergeSort(arr.slice(mid));
-
-            return merge(left, right);
+            const left = mergeSort(arr.slice(0, mid), isAlphabetical, steps);
+            const right = mergeSort(arr.slice(mid), isAlphabetical, steps);
+            
+            const merged = merge(left, right, isAlphabetical);
+            steps.push("Merging: " + left.join(", ") + " & " + right.join(", ") + " → " + merged.join(", "));
+            return merged;
         }
 
-        function merge(left, right) {
+        function merge(left, right, isAlphabetical) {
             let result = [], i = 0, j = 0;
-            
             while (i < left.length && j < right.length) {
-                if (left[i] < right[j]) {
+                if ((isAlphabetical && left[i].localeCompare(right[j]) < 0) || (!isAlphabetical && left[i] < right[j])) {
                     result.push(left[i]);
                     i++;
                 } else {
@@ -55,15 +68,25 @@
                     j++;
                 }
             }
-            
             return result.concat(left.slice(i)).concat(right.slice(j));
         }
 
         function sortArray() {
             const input = document.getElementById("inputArray").value;
-            const arr = input.split(',').map(num => parseInt(num.trim(), 10));
-            const sortedArr = mergeSort(arr);
+            const sortType = document.getElementById("sortType").value;
+            let arr;
+
+            if (sortType === "number") {
+                arr = input.split(',').map(num => parseFloat(num.trim())).filter(num => !isNaN(num));
+            } else {
+                arr = input.split(',').map(str => str.trim());
+            }
+            
+            let steps = [];
+            const sortedArr = mergeSort(arr, sortType === "alphabet", steps);
+            
             document.getElementById("output").innerText = "Sorted Array: " + sortedArr.join(", ");
+            document.getElementById("steps").innerHTML = "<h2>Merge Steps:</h2><ul><li>" + steps.join("</li><li>") + "</li></ul>";
         }
     </script>
 </body>
