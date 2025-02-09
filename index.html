@@ -28,6 +28,7 @@
     <h1>Merge Sort Algorithm</h1>
     <input type="text" id="inputArray" placeholder="Enter numbers separated by commas">
     <button onclick="sortArray()">Sort</button>
+    <button onclick="resetForm()">Reset</button>
     <div id="output"></div>
 
     <script>
@@ -64,6 +65,11 @@
             const arr = input.split(',').map(num => parseInt(num.trim(), 10));
             const sortedArr = mergeSort(arr);
             document.getElementById("output").innerText = "Sorted Array: " + sortedArr.join(", ");
+        }
+
+        function resetForm() {
+            document.getElementById("inputArray").value = "";
+            document.getElementById("output").innerText = "";
         }
     </script>
 </body>
